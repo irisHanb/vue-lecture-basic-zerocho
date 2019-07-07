@@ -1,10 +1,13 @@
+const HtmlWebpakcPlugin = require('html-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const webpack = require('webpack');
+
 const path = require('path');
 
 module.exports = {
-  resolve: {
-    extends: ['js', 'vue']
+  entry: {
+    app: './src/main.js'
   },
-  entry: './src/main.js',
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
@@ -18,8 +21,23 @@ module.exports = {
       {
         test: /\.vue$/,
         use: ['vue-loader']
+      },
+      {
+        test: /\.css$/,
+        use: ['vue-style-loader', 'css-loader']
       }
     ]
-  }
+  },
+  devServer: {
+    open: true,
+    hot: true
+  },
+  plugins: [
+    new HtmlWebpakcPlugin({
+      template: './src/index.html'
+    }),
+    new VueLoaderPlugin(),
+    new webpack.HotModuleReplacementPlugin()
+  ]
 
 }
